@@ -6,7 +6,7 @@ const NewsContainer = () => {
 
     const [latestStories, setLatestStories] = useState([]);
     const [articles, setArticles] = useState([]);
-    let [loaded, setLoaded] = useState(false);
+    const [loaded, setLoaded] = useState(false);
     const [unfilteredAuthors, setUnfilteredAuthors] = useState([]);
     const [filteredArticlesByTitle, setFilteredArticlesByTitle] = useState([]);
     const [filteredArticlesByAuthor, setFilteredArticlesByAuthor] = useState([]);
@@ -32,19 +32,20 @@ const NewsContainer = () => {
             .then((combinedData) => {
                 setArticles(combinedData.sort((a, b) => b.score - a.score))
                 setUnfilteredAuthors(combinedData.map(article => article.by))
-                // console.log(combinedData.sort((a, b) => b.score - a.score))
             })
-            .then(() => setLoaded(true))
+            .then(() => {
+                setLoaded(true);
+            })
             
         })
     };
 
     const authors = [...new Set(unfilteredAuthors)].sort()
-    // const authorsAlphabetical = authors.sort()
 
     const selectArticleByTitle = (articleTitle) => {
         setSelectedArticle(articles.find(article => article.title === articleTitle));
-        setDisplayItem("selectedArticle")
+        setDisplayItem("selectedArticle");
+        selectedArticle.favourite = true;
     }
 
     const getTopTen = () => {
@@ -54,18 +55,18 @@ const NewsContainer = () => {
         };
         setTopTen(topTenArray);
         setDisplayItem("topTen");
-        // console.log(topTen)
     }
 
     const getSearchTerm = (e) => {
-        setKeyword(e.target.value);
+            setKeyword(e.target.value);
     }
 
     const createArticlesByTitleArray = () => {
-        setFilteredArticlesByTitle(articles.filter(article => article.title.includes(keyword)));
-        setKeywordDisplay(keyword);
-        setDisplayItem("keywordSearch")
-        // setTopTen([]);
+        if (keyword) {
+            setFilteredArticlesByTitle(articles.filter(article => article.title.includes(keyword)));
+            setKeywordDisplay(keyword);
+            setDisplayItem("keywordSearch")
+        }
     }
 
     const createArticlesByAuthorArray = (author) => {
@@ -74,9 +75,23 @@ const NewsContainer = () => {
         setDisplayItem("authorSearch");
     }
 
+    const toggleFavourite = (article) => {
+        article.favourite = !article.favourite;
+        // let favourite
+        // (article.favourite? favourite = false: favourite = true)
+        setSelectedArticle(article);
+        console.log(article.favourite);
+        // console.log(selectedArticle.favourite);
+    }
+
     useEffect(() => {
         getLatestStories();
     }, []);
+
+    useEffect(()=> {
+        articles.forEach(article => article.favourite = false);
+    }, [articles])
+
 
     return (
         <>
@@ -97,7 +112,8 @@ const NewsContainer = () => {
                 filteredArticlesByAuthor={filteredArticlesByAuthor}
                 authorDisplay={authorDisplay}
                 keywordDisplay={keywordDisplay}
-                displayItem={displayItem} />
+                displayItem={displayItem}
+                toggleFavourite={toggleFavourite} />
             </div>
         </>
     )

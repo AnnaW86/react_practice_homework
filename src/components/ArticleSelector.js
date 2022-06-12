@@ -2,7 +2,6 @@ import { useState } from "react";
 
 const ArticleSelector = ({articles, authors, loaded, selectArticleByTitle, getTopTen, createArticlesByTitleArray, createArticlesByAuthorArray, getSearchTerm}) => {
 
-
     if (!loaded) {
         return <p>Loading...</p>
     };
@@ -23,7 +22,7 @@ const ArticleSelector = ({articles, authors, loaded, selectArticleByTitle, getTo
     );
     
     const handleSeeAllSubmit = (e) => {
-        selectArticleByTitle(e.target.value);
+        selectArticleByTitle(e.target.value)
         e.target.selectedIndex = 0;
     }
 

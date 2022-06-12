@@ -1,15 +1,19 @@
-const ArticlesDisplay = ({selectedArticle, topTen, filteredArticlesByTitle, filteredArticlesByAuthor, authorDisplay, keywordDisplay, displayItem}) => {
+const ArticlesDisplay = ({selectedArticle, topTen, filteredArticlesByTitle, filteredArticlesByAuthor, authorDisplay, keywordDisplay, displayItem, toggleFavourite, renderArticles}) => {
 
     const getDisplayInfo = (article) => {
         return (
             <>
-                <a href={article.url}>
                     <div className="article-container">
-                        <h4>{article.title}</h4>
-                        <p>By: {article.by}</p>
-                        <p>Rating: {article.score}</p>
+                        <a href={article.url}>
+                            <h4>{article.title}</h4>
+                            <p>By: {article.by}</p>
+                            <p>Rating: {article.score}</p>
+                        </a>
+                        
+                        {/* <button onClick={() => toggleFavourite(article)}>
+                            <span className="fa fa-star" {...!article.favourite ? {id:"unchecked"} : {id:"checked"}} ></span>
+                        </button> */}
                     </div>
-                </a>
             </>
         )
     }
