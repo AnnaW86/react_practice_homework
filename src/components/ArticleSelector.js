@@ -1,22 +1,22 @@
-import { useState } from "react";
-
-const ArticleSelector = ({articles, authors, loaded, selectArticleByTitle, getTopTen, createArticlesByTitleArray, createArticlesByAuthorArray, getSearchTerm}) => {
+const ArticleSelector = ({articles, loaded, selectArticleByTitle, getTopTen, createArticlesByTitleArray, createArticlesByAuthorArray, createFavouritesArray, getSearchTerm}) => {
 
     if (!loaded) {
         return <p>Loading...</p>
     };
 
 
-    const articlesOptions = articles.map((article) => {
+    const articlesOptions = articles.map((article, index) => {
         return (
-        <option >{article.title}</option>
+        <option key={index} >{article.title}</option>
         )
     }
     );
 
-    const authorsOptions = authors.map((author) => {
+    const authors = new Set(articles.map(article => article.by).sort())
+
+    const authorsOptions = [...authors].map((author, index) => {
         return (
-        <option>{author}</option>
+        <option key={index}>{author}</option>
         )
     }
     );

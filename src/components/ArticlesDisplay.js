@@ -1,4 +1,4 @@
-const ArticlesDisplay = ({selectedArticle, topTen, filteredArticlesByTitle, filteredArticlesByAuthor, authorDisplay, keywordDisplay, displayItem, toggleFavourite, renderArticles}) => {
+const ArticlesDisplay = ({filteredArticles, displayHeading}) => {
 
     const getDisplayInfo = (article) => {
         return (
@@ -18,56 +18,16 @@ const ArticlesDisplay = ({selectedArticle, topTen, filteredArticlesByTitle, filt
         )
     }
 
-    const selectedArticleDisplay = getDisplayInfo(selectedArticle);
+    const filteredArticlesDisplay = filteredArticles.map(article => getDisplayInfo(article))
 
-    const filteredArticlesByTitleDisplay = filteredArticlesByTitle.map(article => getDisplayInfo(article))
-
-    const filteredArticlesByAuthorDisplay = filteredArticlesByAuthor.map(article => getDisplayInfo(article))
-
-    const topTenDetails = topTen.map((article) => getDisplayInfo(article))
 
 
     return (
         <>
-
-            {displayItem === "selectedArticle" &&
-                <>
-                    <h2>Your chosen article:</h2>
-                    <div className="list-container">
-                        {selectedArticleDisplay}
-                    </div>
-                </>
-            }
-
-
-            {displayItem === "topTen" &&
-                <>
-                    <h2>Top Ten Articles:</h2>
-                    <div className="list-container">
-                        {topTenDetails}
-                    </div>
-                </>
-            }
-        
-            {displayItem === "keywordSearch" &&
-                <>
-                    <h2>Articles with <i>'{keywordDisplay}'</i> in the title:</h2>
-                    <div className="list-container">
-                        {filteredArticlesByTitleDisplay}
-                    </div>
-                    {filteredArticlesByTitleDisplay.length === 0 && keywordDisplay &&
-                    <p>There are no articles with <i>'{keywordDisplay}'</i> in the title.</p>}
-                </>
-            }
-
-            {displayItem === "authorSearch" &&
-                <>
-                    <h2>Articles by {authorDisplay}:</h2>
-                    <div className="list-container">
-                        {filteredArticlesByAuthorDisplay}
-                    </div>
-                </>
-            }
+            <h2>{displayHeading}</h2>
+            <div className="list-container">
+                {filteredArticlesDisplay}
+            </div>
         </>
     )
 }
